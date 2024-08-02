@@ -1,18 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Header from './subComponents/header';
 
 function HomePage() {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                {/* Header Section */}
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.iconContainer}>
-                        <Image source={require('../assets/four-dots.png')} style={styles.icon} />
-                    </TouchableOpacity>
-                    <Image source={require('../assets/user.png')} style={styles.userIcon} />
-                </View>
+                 {/* Header Section */}
+                  <Header />
 
                 {/* Welcome Text */}
                 <Text style={styles.welcomeText}>Welcome Home</Text>
@@ -165,7 +160,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         gap:35,
         paddingVertical: 30,
-        paddingHorizontal: 10,
+        paddingHorizontal: 30,
         
         marginBottom: 20,
         alignItems: 'center',
@@ -178,7 +173,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#10101010',
         borderRadius: 20,
         paddingVertical: 30,
-        paddingHorizontal: 10,
+        paddingHorizontal: 30,
         marginBottom: 20,
         alignItems: 'center',
         borderWidth: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Button from './Button';
+import Button from './subComponents/Button';
 
 function LandingPage({ navigation }) {
   return (
