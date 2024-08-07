@@ -1,83 +1,75 @@
 import React from 'react';
-import Header from './subComponents/header';
-import { View, Text, Image, StyleSheet, ScrollView  } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function Dashboard() {
+    const navigation = useNavigation();
+
+    const navigateToDetails = (sensorType) => {
+        navigation.navigate('Details', { sensorType });
+    };
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                {/* Header Section */}
-                <Header />
-
+                
                 <View style={styles.header}>
-
                     <Text style={styles.headerTitle}>Real-time Sensor Data Capture</Text>
                 </View>
-
-                {/* Sensor Data Section */}
                 <View style={styles.sensorDataContainer}>
                     <View style={styles.sensorsRow}>
-                        {/* Temperature Container */}
-                        <View style={styles.sensorContainer}>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('Temperature')}>
                             <Image source={require('../assets/temperature.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Temperature</Text>
                                 <Text style={styles.sensorValue}>90°F</Text>
                                 <Text style={styles.sensorLocation}>Greenhouse</Text>
                             </View>
-                        </View>
-
-                        {/* Gas Level Container */}
-                        <View style={styles.sensorContainer}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('GasLevel')}>
                             <Image source={require('../assets/gas.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Gas Level</Text>
                                 <Text style={styles.sensorValue}>200 ppm</Text>
                                 <Text style={styles.sensorLocation}>Greenhouse</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.sensorsRow}>
-                        {/* Soil Moisture Container */}
-                        <View style={styles.sensorContainer}>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('SoilMoisture')}>
                             <Image source={require('../assets/moisture.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Soil Moisture</Text>
                                 <Text style={styles.sensorValue}>30%</Text>
                                 <Text style={styles.sensorLocation}>Indoor Grow Room</Text>
                             </View>
-                        </View>
-
-                        {/* Wind Chill Container */}
-                        <View style={styles.sensorContainer}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('WindChill')}>
                             <Image source={require('../assets/wind.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Wind Chill</Text>
                                 <Text style={styles.sensorValue}>50°F</Text>
                                 <Text style={styles.sensorLocation}>Greenhouse</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.sensorsRow}>
-                        {/* Humidity Container */}
-                        <View style={styles.sensorContainer}>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('Humidity')}>
                             <Image source={require('../assets/humidity.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Humidity</Text>
                                 <Text style={styles.sensorValue}>70%</Text>
                                 <Text style={styles.sensorLocation}>Greenhouse</Text>
                             </View>
-                        </View>
-
-                        {/* Water Level Container */}
-                        <View style={styles.sensorContainer}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.sensorContainer} onPress={() => navigateToDetails('WaterLevel')}>
                             <Image source={require('../assets/water.png')} style={styles.sensorImage} />
                             <View style={styles.sensorDetails}>
                                 <Text style={styles.sensorTitle}>Water Level</Text>
                                 <Text style={styles.sensorValue}>75%</Text>
                                 <Text style={styles.sensorLocation}>Hydroponics</Text>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
@@ -89,11 +81,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#f5f5f5',
-        paddingHorizontal: 20,
+        paddingVertical:5,
+        marginBottom:30,
+        paddingHorizontal: 10,
+        borderBlockColor:'#10101010',
+        borderBottomWidth:2,
     },
     scrollViewContent: {
         flexGrow: 1,
-        paddingBottom: 20,
+        paddingBottom: 10,
     },
     header: {
         marginTop: 20,
@@ -108,14 +104,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        gap: 20,
+        gap: 10,
     },
     sensorContainer: {
-        // flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#fff',
         borderRadius: 10,
-        padding: 20,
+        padding: 15,
         marginBottom: 20,
         flexBasis: '48%',
         shadowColor: '#000',

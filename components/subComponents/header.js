@@ -1,21 +1,78 @@
-import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Image, TouchableOpacity, StyleSheet, Modal, Text, Animated, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+const screenWidth = Dimensions.get('window').width;
 
 const Header = () => {
-  const navigation = useNavigation(); // Get the navigation object
+  const [isNavVisible, setIsNavVisible] = useState(false);
+  const navigation = useNavigation();
+  const slideAnim = useRef(new Animated.Value(-screenWidth)).current;
 
-  // Function to handle navigation
-  const handleNavigate = () => {
-    navigation.navigate('Dashboard'); // Navigate to Dashboard screen
+  // Function to toggle the side navigation bar
+  const toggleNavBar = () => {
+    setIsNavVisible(!isNavVisible);
+  };
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: isNavVisible ? 0 : -screenWidth,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isNavVisible]);
+
+  const navigateToProfile = () => {
+    navigation.navigate('Profile');
+    toggleNavBar(); // Close the nav bar after navigation
   };
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.iconContainer} onPress={handleNavigate}>
+      <TouchableOpacity style={styles.iconContainer} onPress={toggleNavBar}>
         <Image source={require('../../assets/four-dots.png')} style={styles.icon} />
       </TouchableOpacity>
-      <Image source={require('../../assets/user.png')} style={styles.userIcon} />
+      <Image source={require('../../assets/user.jpg')} style={styles.userIcon} />
+
+      {/* Side Navigation Bar */}
+      <Modal
+        transparent={true}
+        visible={isNavVisible}
+        onRequestClose={toggleNavBar}
+        animationType="fade"
+      >
+        <View style={styles.modalContainer}>
+          <Animated.View style={[styles.navContainer, { transform: [{ translateX: slideAnim }] }]}>
+            <View style={styles.navBar}>
+              {/* Navigation Bar Header */}
+              <View style={styles.navHeader}>
+                <TouchableOpacity onPress={toggleNavBar} style={styles.closeButton}>
+                  <Icon name="close" size={30} color="#000" />
+                </TouchableOpacity>
+                <Image source={require('../../assets/logo.png')} style={styles.logo} />
+                <Text style={styles.appName}>Happy IOT</Text>
+              </View>
+
+              <View style={styles.navBody}>
+                {/* Navigation Links */}
+                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation */ }}>
+                  <Icon name="settings" size={24} color="#000" />
+                  <Text style={styles.navItemText}>Settings</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.navItem} onPress={navigateToProfile}>
+                  <Icon name="person" size={24} color="#000" />
+                  <Text style={styles.navItemText}>Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation */ }}>
+                  <Icon name="exit-to-app" size={24} color="#000" />
+                  <Text style={styles.navItemText}>Logout</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Animated.View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -31,13 +88,91 @@ const styles = StyleSheet.create({
   iconContainer: {
     // Customize as needed
   },
+  mainTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    alignItems: 'center',
+    marginBottom: 30,
+    borderBottomColor: '#10101010',
+    paddingVertical: 12,
+    borderBottomWidth: 2,
+},
+logo: {
+    width: 50,
+    height: 50,
+    marginBottom: 10,
+},
+mainTitle: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#121212'
+},
   icon: {
     width: 30,
     height: 30,
   },
   userIcon: {
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)', // Dark overlay background
+  },
+  navContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: screenWidth,
+  },
+  navBar: {
+    width: 250,
+    height: '100%',
+    backgroundColor: '#fff',
+    paddingTop: 50,
+    position: 'absolute',
+    left: 0,
+  },
+  navHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'orange',
+    padding: 20,
+    width: '100%',
+    borderBottomRightRadius: 10,
+    marginBottom: 20,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 20,
+  },
+  navBody: {
+    padding: 20,
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+  },
+  appName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  navItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  navItemText: {
+    fontSize: 20,
+    marginLeft: 10,
+    fontWeight: '300',
   },
 });
 
