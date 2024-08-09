@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } fro
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const ProfileEditingScreen = () => {
+const Profile = () => {
   const [name, setName] = useState('Isma');
   const [company, setCompany] = useState('HLT');
   const [email, setEmail] = useState('isma@gmail.com');
@@ -135,4 +135,4 @@ const styles = StyleSheet.create({
    
 });
 
-export default ProfileEditingScreen;
+export default Profile;

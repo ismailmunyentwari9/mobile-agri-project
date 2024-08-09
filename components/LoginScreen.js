@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image,ScrollView } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -10,32 +10,49 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginForm({ navigation }) {
-  const handleLogin = (values) => {
-    // console.log('Username:', values.username);
-    // console.log('Email:', values.email);
-    // console.log('Password:', values.password);
-    navigation.navigate('Home');
-    // Logics for the form
-  };
+  const handleLogin = async (values) => {
+    try {
+      const response = await fetch('http://10.0.0.112:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
 
+      const data = await response.json();
+      if (response.ok) {
+        // Save the token and navigate to the next screen
+        navigation.navigate('Welcome');
+
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   const handleCreateAccount = () => {
     navigation.navigate('CreateAccount');
   };
 
   return (
     <Formik
-      initialValues={{email: '', password: '' }}
+      initialValues={{ email: '', password: '' }}
       // validationSchema={validationSchema}
       onSubmit={handleLogin}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+        <ScrollView>
         <View style={styles.container}>
+          
           <Image source={require('../assets/logo.png')} style={styles.logo} />
           <Text style={styles.title}>Login</Text>
           <View style={styles.fieldset}>
             <TextInput
               style={styles.input}
               placeholder="Email"
+              required
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
@@ -46,6 +63,7 @@ function LoginForm({ navigation }) {
             <TextInput
               style={styles.input}
               placeholder="Password"
+              required
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
@@ -59,7 +77,9 @@ function LoginForm({ navigation }) {
           <TouchableOpacity style={styles.createAccountButton} onPress={handleCreateAccount}>
             <Text style={styles.createAccountText}>Create Account</Text>
           </TouchableOpacity>
+         
         </View>
+        </ScrollView>
       )}
     </Formik>
   );
@@ -69,6 +89,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    paddingVertical:"50%",
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#f5f5f5',
@@ -82,7 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color:'#3333444'
+    color: '#3333444'
   },
   fieldset: {
     width: '100%',
@@ -126,7 +147,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderColor: '#007BFF',
     borderWidth: 1,
-    backgroundColor:'#333344',
+    backgroundColor: '#333344',
     borderRadius: 5,
     alignItems: 'center',
   },
@@ -135,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   }
-    
+
 });
 
 export default LoginForm;

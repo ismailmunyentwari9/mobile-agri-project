@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -13,14 +13,29 @@ const validationSchema = Yup.object().shape({
     .required('Confirm Password is required'),
 });
 
-function SignUpForm({ navigation }) {
+function CreateAccount({ navigation }) {
   // Handle form submission
-  const handleSubmit = (values) => {
-    console.log('Username:', values.username);
-    console.log('Email:', values.email);
-    console.log('Password:', values.password);
-    // Add your signup logic here
+  const handleSubmit = async (values) => {
+    try {
+      const response = await fetch('http://10.0.0.112:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        navigation.navigate('Login');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
 
   // Navigate to login screen
   const handleLogin = () => {
@@ -34,54 +49,56 @@ function SignUpForm({ navigation }) {
       onSubmit={handleSubmit}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-        <View style={styles.container}>
-          <Image source={require('../assets/logo.png')} style={styles.logo} />
-          <Text style={styles.title}>Sign Up</Text>
-          <View style={styles.fieldset}>
-            <TextInput
-              style={styles.input}
-              placeholder="Username / Company Name"
-              onChangeText={handleChange('username')}
-              onBlur={handleBlur('username')}
-              value={values.username}
-            />
-            {touched.username && errors.username && <Text style={styles.error}>{errors.username}</Text>}
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            {touched.email && errors.email && <Text style={styles.error}>{errors.email}</Text>}
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-              secureTextEntry
-            />
-            {touched.password && errors.password && <Text style={styles.error}>{errors.password}</Text>}
-            <TextInput
-              style={styles.input}
-              placeholder="Confirm Password"
-              onChangeText={handleChange('confirmPassword')}
-              onBlur={handleBlur('confirmPassword')}
-              value={values.confirmPassword}
-              secureTextEntry
-            />
-            {touched.confirmPassword && errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+        <ScrollView>
+          <View style={styles.container}>
+            <Image source={require('../assets/logo.png')} style={styles.logo} />
+            <Text style={styles.title}>Sign Up</Text>
+            <View style={styles.fieldset}>
+              <TextInput
+                style={styles.input}
+                placeholder="Username / Company Name"
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+                value={values.username}
+              />
+              {touched.username && errors.username && <Text style={styles.error}>{errors.username}</Text>}
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              {touched.email && errors.email && <Text style={styles.error}>{errors.email}</Text>}
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry
+              />
+              {touched.password && errors.password && <Text style={styles.error}>{errors.password}</Text>}
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                value={values.confirmPassword}
+                secureTextEntry
+              />
+              {touched.confirmPassword && errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+            </View>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.createAccountButton} onPress={handleLogin}>
+              <Text style={styles.goLoginText}>Login</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Sign Up</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.createAccountButton} onPress={handleLogin}>
-            <Text style={styles.goLoginText}>Login</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );
@@ -91,6 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    paddingVertical: "20%",
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#f5f5f5',
@@ -159,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpForm;
+export default CreateAccount;
