@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     borderColor:'black',
     borderWidth:2,
-    borderRadius:'100%',
+    borderRadius:'10  0%',
   },
   imagePlaceholder: {
     width: 100,

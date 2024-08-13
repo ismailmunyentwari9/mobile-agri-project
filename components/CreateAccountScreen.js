@@ -17,7 +17,7 @@ function CreateAccount({ navigation }) {
   // Handle form submission
   const handleSubmit = async (values) => {
     try {
-      const response = await fetch('http://10.0.0.112:3000/signup', {
+      const response = await fetch('http://192.168.1.19:3000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingVertical: "20%",
+    paddingVertical: "5%",
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#f5f5f5',

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Switch, Alert, ScrollView, Modal, TouchableOpacity, FlatList } from 'react-native';
 import Header from './subComponents/header';
 import { useRoute } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddLogicScreen = () => {
     const route = useRoute();
     const { sensorType } = route.params;
 
-    // Mock devices list
     const devices = [
         { id: '1', name: 'Smart Light' },
         { id: '2', name: 'Smart AC' },
@@ -20,6 +20,8 @@ const AddLogicScreen = () => {
     const [action, setAction] = useState('');
     const [actionType, setActionType] = useState('Turn on');
     const [isAlertEnabled, setIsAlertEnabled] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const [deviceModalVisible, setDeviceModalVisible] = useState(false);
     const [actionTypeModalVisible, setActionTypeModalVisible] = useState(false);
@@ -30,14 +32,20 @@ const AddLogicScreen = () => {
             return;
         }
 
-        console.log(`For device ${selectedDevice}, set threshold to ${threshold} and perform ${actionType} action: ${action}`);
+        console.log(`For device ${selectedDevice}, set threshold to ${threshold}, perform ${actionType} action: ${action}, on ${date.toLocaleDateString()}`);
         if (isAlertEnabled) {
             console.log('Alert is enabled');
         }
     };
 
+    const onDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowDatePicker(false);
+        setDate(currentDate);
+    };
+
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView style={styles.container}>
             <Header />
             <Text style={styles.title}>Add Logic for {sensorType}</Text>
 
@@ -128,6 +136,21 @@ const AddLogicScreen = () => {
             </View>
 
             <View style={styles.formGroup}>
+                <Text style={styles.label}>Date:</Text>
+                <TouchableOpacity style={styles.dropdown} onPress={() => setShowDatePicker(true)}>
+                    <Text style={styles.dropdownText}>{date.toLocaleDateString()}</Text>
+                </TouchableOpacity>
+                {showDatePicker && (
+                    <DateTimePicker
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={onDateChange}
+                    />
+                )}
+            </View>
+
+            <View style={styles.formGroup}>
                 <Text style={styles.label}>Enable Alert:</Text>
                 <Switch
                     value={isAlertEnabled}
@@ -135,7 +158,9 @@ const AddLogicScreen = () => {
                 />
             </View>
 
-            <Button title="Save Logic" onPress={handleSave} />
+            <TouchableOpacity style={styles.dropdown}        onPress={handleSave}>
+                <Text>Save Automation</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
@@ -144,6 +169,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        paddingBottom:'50%',
         backgroundColor: '#fff',
     },
     title: {

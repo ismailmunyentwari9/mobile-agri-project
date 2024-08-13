@@ -25,7 +25,11 @@ const Header = () => {
 
   const navigateToProfile = () => {
     navigation.navigate('Profile');
-    toggleNavBar(); // Close the nav bar after navigation
+    setIsNavVisible(false); // Close the modal after navigating to Profile
+  };
+  const navigateToSavedAutomations = () => {
+    navigation.navigate('Saved');
+    setIsNavVisible(false); // Close the modal after navigating to Profile
   };
 
   return (
@@ -33,7 +37,11 @@ const Header = () => {
       <TouchableOpacity style={styles.iconContainer} onPress={toggleNavBar}>
         <Image source={require('../../assets/four-dots.png')} style={styles.icon} />
       </TouchableOpacity>
-      <Image source={require('../../assets/user.jpg')} style={styles.userIcon} />
+
+      {/* User image that navigates to Profile */}
+      <TouchableOpacity onPress={navigateToProfile}>
+        <Image source={require('../../assets/user.jpg')} style={styles.userIcon} />
+      </TouchableOpacity>
 
       {/* Side Navigation Bar */}
       <Modal
@@ -42,9 +50,9 @@ const Header = () => {
         onRequestClose={toggleNavBar}
         animationType="fade"
       >
-        <View style={styles.modalContainer}>
+        <TouchableOpacity style={styles.modalContainer} onPress={toggleNavBar}>
           <Animated.View style={[styles.navContainer, { transform: [{ translateX: slideAnim }] }]}>
-            <View style={styles.navBar}>
+            <TouchableOpacity activeOpacity={1} style={styles.navBar} onPress={() => { }}>
               {/* Navigation Bar Header */}
               <View style={styles.navHeader}>
                 <TouchableOpacity onPress={toggleNavBar} style={styles.closeButton}>
@@ -56,22 +64,30 @@ const Header = () => {
 
               <View style={styles.navBody}>
                 {/* Navigation Links */}
-                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation */ }}>
+                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation to Settings */ }}>
                   <Icon name="settings" size={24} color="#000" />
                   <Text style={styles.navItemText}>Settings</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.navItem} onPress={navigateToProfile}>
                   <Icon name="person" size={24} color="#000" />
                   <Text style={styles.navItemText}>Profile</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation */ }}>
+
+                <TouchableOpacity style={styles.navItem} onPress={navigateToSavedAutomations}>
+                  <Icon name="save" size={24} color="#000" />
+                  <Text style={styles.navItemText}>Saved Automations</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.navItem} onPress={() => { /* Handle navigation to Logout */ }}>
                   <Icon name="exit-to-app" size={24} color="#000" />
                   <Text style={styles.navItemText}>Logout</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+
+            </TouchableOpacity>
           </Animated.View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </View>
   );
@@ -97,17 +113,17 @@ const styles = StyleSheet.create({
     borderBottomColor: '#10101010',
     paddingVertical: 12,
     borderBottomWidth: 2,
-},
-logo: {
+  },
+  logo: {
     width: 50,
     height: 50,
     marginBottom: 10,
-},
-mainTitle: {
+  },
+  mainTitle: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#121212'
-},
+    color: '#121212',
+  },
   icon: {
     width: 30,
     height: 30,

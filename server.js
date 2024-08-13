@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Create MySQL connection
 const db = mysql.createConnection({
-  host: '10.0.0.112',
+  host: '192.168.1.19',
   user: 'root',
   password:'',
   database: 'greenhouse',

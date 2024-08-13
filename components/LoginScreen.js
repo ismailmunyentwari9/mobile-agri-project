@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
 function LoginForm({ navigation }) {
   const handleLogin = async (values) => {
     try {
-      const response = await fetch('http://10.0.0.112:3000/login', {
+      const response = await fetch('http://192.168.1.19:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingVertical:"50%",
+    paddingVertical:'20%',
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#f5f5f5',

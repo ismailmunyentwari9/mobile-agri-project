@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import Header from './subComponents/header';
 import Dashboard from './realDataDashboard';
 
-function HomePage() {
+function SmartGreen() {
     const navigation = useNavigation();
     const [isAlertEnabled, setIsAlertEnabled] = useState(false);
 
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         flexGrow: 1,
+       
     },
     subContainer: {
         flexDirection: 'row',
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#121212',
         borderRadius: 20,
+        width:'45%',
         gap: 35,
         paddingVertical: 30,
         paddingHorizontal: 30,
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
     lowerDeviceContainer: {
         flexDirection: 'column',
         gap: 35,
+        width:'45%',
         backgroundColor: '#10101010',
         borderRadius: 20,
         paddingVertical: 30,
@@ -226,4 +229,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HomePage;
+export default SmartGreen;

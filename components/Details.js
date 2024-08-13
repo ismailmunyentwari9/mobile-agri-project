@@ -99,7 +99,7 @@ const Details = () => {
                 </View>
                 <View style={styles.buttonContainer}>
                     <Button
-                        title="Add Logic"
+                        title="Add Automation"
                         onPress={() => navigation.navigate('AddLogicScreen', { sensorType })}
                     />
                 </View>
@@ -111,9 +111,8 @@ const Details = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 50,
+        padding: 20,
+        backgroundColor: '#f5f5f5',
     },
     headerContainer: {
         fontWeight: 'bold',
