@@ -30,7 +30,7 @@ const Profile = () => {
       <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
         {profileImage ? (
           <View style={styles.imageContainer}>
-            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            <Image source={{ uri: '../assets/user.jpg '}} style={styles.profileImage} />
             <Icon name="edit" size={24} color="#fff" style={styles.editIcon} />
           </View>
         ) : (
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     borderColor:'black',
     borderWidth:2,
-    borderRadius:'10  0%',
+    borderRadius:100,
   },
   imagePlaceholder: {
     width: 100,

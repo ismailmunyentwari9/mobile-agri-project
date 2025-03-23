@@ -55,9 +55,7 @@ const Header = () => {
             <TouchableOpacity activeOpacity={1} style={styles.navBar} onPress={() => { }}>
               {/* Navigation Bar Header */}
               <View style={styles.navHeader}>
-                <TouchableOpacity onPress={toggleNavBar} style={styles.closeButton}>
-                  <Icon name="close" size={30} color="#000" />
-                </TouchableOpacity>
+                
                 <Image source={require('../../assets/logo.png')} style={styles.logo} />
                 <Text style={styles.appName}>Happy IOT</Text>
               </View>
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 0,
     marginBottom: 30,
   },
   iconContainer: {

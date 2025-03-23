@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Header from './subComponents/header';
@@ -16,6 +16,9 @@ const Details = () => {
     const route = useRoute();
     const navigation = useNavigation();
     const { sensorType } = route.params;
+
+    // Get screen dimensions
+    const screenWidth = Dimensions.get('window').width;
 
     // Mock data for demonstration purposes
     const data = {
@@ -73,8 +76,8 @@ const Details = () => {
                         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
                         datasets: [{ data: sensorData.values }]
                     }}
-                    width={400}
-                    height={400}
+                    width={screenWidth * 0.9}  // 90% of the screen width
+                    height={screenWidth * 0.8} // 50% of the screen width for height
                     chartConfig={{
                         backgroundColor: "#e26a00",
                         backgroundGradientFrom: "#fb8c00",
@@ -98,10 +101,9 @@ const Details = () => {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button
-                        title="Add Automation"
-                        onPress={() => navigation.navigate('AddLogicScreen', { sensorType })}
-                    />
+                <TouchableOpacity style={styles.customButton} onPress={() => navigation.navigate('AddLogicScreen', { sensorType })}>
+    <Text style={styles.buttonText}>Add Automation</Text>
+</TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
